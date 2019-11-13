@@ -17,11 +17,11 @@
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.query;
+package pt.ieeta.dicoogle.plugin.sample.query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.MemoryDICOMDB;
+import pt.ieeta.dicoogle.plugin.sample.MemoryDICOMDB;
 import pt.ua.dicoogle.sdk.QueryInterface;
 import pt.ua.dicoogle.sdk.datastructs.SearchResult;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
@@ -70,7 +70,6 @@ public class SampleQueryPlugin implements QueryInterface {
 
     @Override
     public Iterable<SearchResult> query(String query, Object... parameters) {
-
         List<SearchResult> results = new ArrayList<>();
         results.add(generateSearchResult());
         results.add(generateSearchResult());
@@ -111,7 +110,6 @@ public class SampleQueryPlugin implements QueryInterface {
     @Override
     public void setSettings(ConfigurationHolder settings) {
         this.settings = settings;
-        // use settings here
     }
 
 }

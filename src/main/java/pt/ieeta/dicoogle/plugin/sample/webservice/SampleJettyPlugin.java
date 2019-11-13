@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.webservice;
+package pt.ieeta.dicoogle.plugin.sample.webservice;
 
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
