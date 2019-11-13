@@ -18,37 +18,35 @@
  */
 package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.storage;
 
+import org.dcm4che2.data.DicomObject;
+import org.dcm4che2.io.DicomInputStream;
+import org.dcm4che2.io.DicomOutputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pt.ua.dicoogle.sdk.StorageInputStream;
+import pt.ua.dicoogle.sdk.StorageInterface;
+import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import org.dcm4che2.data.DicomObject;
-import org.dcm4che2.io.DicomInputStream;
-import pt.ua.dicoogle.sdk.StorageInputStream;
-import pt.ua.dicoogle.sdk.StorageInterface;
-import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
-import org.dcm4che2.io.DicomOutputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.*;
 
-/** Example of a storage plugin.
+/**
+ * Example of a storage plugin.
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class RSIStorage implements StorageInterface {
-    private static final Logger logger = LoggerFactory.getLogger(RSIStorage.class);
+public class SampleStoragePlugin implements StorageInterface {
+    private static final Logger logger = LoggerFactory.getLogger(SampleStoragePlugin.class);
 
     private final Map<String, ByteArrayOutputStream> mem = new HashMap<>();
     private boolean enabled = true;
     private ConfigurationHolder settings;
-    
+
     @Override
     public String getScheme() {
         return "mem://";
@@ -106,7 +104,7 @@ public class RSIStorage implements StorageInterface {
         bos.toByteArray();
         URI uri = URI.create("mem://" + UUID.randomUUID().toString());
         mem.put(uri.toString(), bos);
-        
+
         return uri;
     }
 
@@ -123,7 +121,7 @@ public class RSIStorage implements StorageInterface {
 
     @Override
     public String getName() {
-        return "memoryStorage";
+        return "sample-plugin-storage";
     }
 
     @Override
@@ -144,14 +142,14 @@ public class RSIStorage implements StorageInterface {
     }
 
     @Override
-    public void setSettings(ConfigurationHolder settings) {
-        this.settings = settings;
-        // use settings here
+    public ConfigurationHolder getSettings() {
+        return this.settings;
     }
 
     @Override
-    public ConfigurationHolder getSettings() {
-        return this.settings;
+    public void setSettings(ConfigurationHolder settings) {
+        this.settings = settings;
+        // use settings here
     }
 
 }

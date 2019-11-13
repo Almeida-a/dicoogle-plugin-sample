@@ -18,14 +18,11 @@
  */
 package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.webservice;
 
-import java.net.URL;
-
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import pt.ua.dicoogle.sdk.JettyPluginInterface;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
 import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
@@ -35,17 +32,17 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
  * Example of a Jetty Servlet plugin.
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class RSIJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
-    private static final Logger logger = LoggerFactory.getLogger(RSIJettyPlugin.class);
-
+public class SampleJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
+    private static final Logger logger = LoggerFactory.getLogger(SampleJettyPlugin.class);
+    private final SampleJettyWebService webService;
     private boolean enabled;
     private ConfigurationHolder settings;
     private DicooglePlatformInterface platform;
-    private final RSIJettyWebService webService;
 
-    public RSIJettyPlugin() {
-        this.webService = new RSIJettyWebService();
+    public SampleJettyPlugin() {
+        this.webService = new SampleJettyWebService();
         this.enabled = true;
     }
 
@@ -58,7 +55,7 @@ public class RSIJettyPlugin implements JettyPluginInterface, PlatformCommunicato
 
     @Override
     public String getName() {
-        return "Sample";
+        return "sample-plugin-jetty";
     }
 
     @Override
@@ -79,15 +76,14 @@ public class RSIJettyPlugin implements JettyPluginInterface, PlatformCommunicato
     }
 
     @Override
-    public void setSettings(ConfigurationHolder settings) {
-        this.settings = settings;
-    }
-
-    @Override
     public ConfigurationHolder getSettings() {
         return settings;
     }
 
+    @Override
+    public void setSettings(ConfigurationHolder settings) {
+        this.settings = settings;
+    }
 
     @Override
     public HandlerList getJettyHandlers() {

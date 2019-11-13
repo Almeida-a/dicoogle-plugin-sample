@@ -18,14 +18,6 @@
  */
 package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.webservice;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.concurrent.ExecutionException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
@@ -33,26 +25,35 @@ import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.datastructs.SearchResult;
 import pt.ua.dicoogle.sdk.task.Task;
 
-/** Sample Jetty servlet-based web service.
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.concurrent.ExecutionException;
+
+/**
+ * Sample Jetty servlet-based web service.
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class RSIJettyWebService  extends HttpServlet implements PlatformCommunicatorInterface {
-    private static final Logger logger = LoggerFactory.getLogger(RSIJettyWebService.class);
-    
+public class SampleJettyWebService extends HttpServlet implements PlatformCommunicatorInterface {
+    private static final Logger logger = LoggerFactory.getLogger(SampleJettyWebService.class);
+
     private DicooglePlatformInterface platform;
 
-    public RSIJettyWebService() {
+    public SampleJettyWebService() {
     }
-    
+
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse response)
-                    throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse response) throws IOException {
 
         String SOPInstanceUID = req.getParameter("uid");
         if (SOPInstanceUID == null) {
-                response.sendError(402, "No UID");
-                return;
+            response.sendError(402, "No UID");
+            return;
         }
         HashMap<String, String> extraFields = new HashMap<>();
         //attaches the required extrafields
@@ -68,18 +69,18 @@ public class RSIJettyWebService  extends HttpServlet implements PlatformCommunic
         extraFields.put("SOPInstanceUID", "SOPInstanceUID");
 
         // Kind of filtering: 
-        //Task<Iterable<SearchResult>> result = RSIPluginSet.coreDicoogle.query("lucene", "StudyInstanceUID:234567", extraFields);
+        //Task<Iterable<SearchResult>> result = SamplePluginSet.coreDicoogle.query("lucene", "StudyInstanceUID:234567", extraFields);
         // Return all: 
         Task<Iterable<SearchResult>> result = this.platform.query("lucene", "*:*", extraFields);
         try {
             Iterable<SearchResult> rr = result.get();
-                    
+
         } catch (InterruptedException | ExecutionException ex) {
             logger.warn("Operation failed", ex);
         }
-        
+
         response.setContentType("text/json;charset=utf-8");
-        PrintWriter out=response.getWriter();
+        PrintWriter out = response.getWriter();
         out.print("{\"action\":\"test\"}");
     }
 

@@ -18,9 +18,6 @@
  */
 package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.index;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.URI;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.Tag;
 import org.dcm4che2.io.DicomInputStream;
@@ -35,73 +32,70 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 import pt.ua.dicoogle.sdk.task.ProgressCallable;
 import pt.ua.dicoogle.sdk.task.Task;
 
-/** Example of an indexer plugin.
+import java.io.BufferedInputStream;
+import java.net.URI;
+
+/**
+ * Example of an indexer plugin.
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
  * @author Eduardo Pinho <eduardopinho@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class RSIIndexer implements IndexerInterface{
-    private static final Logger logger = LoggerFactory.getLogger(RSIIndexer.class);
-    
-    private boolean enabled;
+public class SampleIndexPlugin implements IndexerInterface {
+    private static final Logger logger = LoggerFactory.getLogger(SampleIndexPlugin.class);
     private final MemoryDICOMDB memoryDicomDB;
+    private boolean enabled;
     private ConfigurationHolder settings;
 
-    public RSIIndexer(MemoryDICOMDB memoryDicomDB) 
-    {
+    public SampleIndexPlugin(MemoryDICOMDB memoryDicomDB) {
         this.memoryDicomDB = memoryDicomDB;
         this.enabled = true;
     }
 
-    private Report indexURI(StorageInputStream storage) throws IOException
-    {
-        
-        try (DicomInputStream dicomStream =
-                new DicomInputStream(
-                    new BufferedInputStream(
-                        storage.getInputStream()))) {
-            //dicomStream.setFileSize(file.length());
+    private Report indexURI(StorageInputStream storage) {
+
+        try (DicomInputStream dicomStream = new DicomInputStream(new BufferedInputStream(storage.getInputStream()))) {
+
             dicomStream.setHandler(new StopTagInputHandler(Tag.PixelData));
             DicomObject dicomObject = dicomStream.readDicomObject();
-            
+
             String PatientName = dicomObject.getString(Tag.PatientName);
             String StudyInstanceUID = dicomObject.getString(Tag.StudyInstanceUID);
             String SeriesInstanceUID = dicomObject.getString(Tag.SeriesInstanceUID);
             String SOPInstanceUID = dicomObject.getString(Tag.SOPInstanceUID);
-            
+
             this.memoryDicomDB.add(PatientName, StudyInstanceUID, SeriesInstanceUID, SOPInstanceUID);
-            
+
             // use slf4j for logging purposes:
             logger.info("SOP Instance UID: {}", SOPInstanceUID);
             logger.info("PatientName: {}", PatientName);
-        } catch(Exception e) {
+        } catch (Exception e) {
             logger.warn("Failed to index \"{}\"", storage.getURI(), e);
             System.err.println("indexURI: Do whatever you want.");
         }
-        
+
         return new Report();
     }
-    
+
     @Override
     public Task<Report> index(final StorageInputStream file, Object... objects) {
-        
-        
+
+
         return new Task<>(
                 new ProgressCallable<Report>() {
                     private float progress = 0.0f;
 
                     @Override
-                    public Report call() throws Exception {
-                        
+                    public Report call() {
+
                         Report r = null;
-                        try
-                        {
+                        try {
                             r = indexURI(file);
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             logger.warn("Indexation of \"{}\" failed", file.getURI(), e);
                         }
-                        
+
                         progress = 1.0f;
 
                         return r;
@@ -112,7 +106,7 @@ public class RSIIndexer implements IndexerInterface{
                         return progress;
                     }
                 });
-        
+
     }
 
     @Override
@@ -122,8 +116,8 @@ public class RSIIndexer implements IndexerInterface{
                     private float progress = 0.0f;
 
                     @Override
-                    public Report call() throws Exception {
-                        
+                    public Report call() {
+
                         Report r = new Report();
                         try {
                             for (StorageInputStream f : files) {
@@ -132,9 +126,9 @@ public class RSIIndexer implements IndexerInterface{
                         } catch (Exception e) {
                             logger.warn("Indexation failed", e);
                         }
-                        
+
                         progress = 1.0f;
-                        
+
                         return r;
                     }
 
@@ -143,7 +137,7 @@ public class RSIIndexer implements IndexerInterface{
                         return progress;
                     }
                 });
-        
+
     }
 
     @Override
@@ -152,13 +146,14 @@ public class RSIIndexer implements IndexerInterface{
         return false;
     }
 
-    /** This method is used to retrieve the unique name of the indexer.
-     * 
+    /**
+     * This method is used to retrieve the unique name of the indexer.
+     *
      * @return a fixed name for the indexer
      */
     @Override
     public String getName() {
-        return "RSI";
+        return "sample-plugin-index";
     }
 
     @Override
@@ -179,14 +174,14 @@ public class RSIIndexer implements IndexerInterface{
     }
 
     @Override
-    public void setSettings(ConfigurationHolder settings) {
-        this.settings = settings;
-        // use settings here
+    public ConfigurationHolder getSettings() {
+        return this.settings;
     }
 
     @Override
-    public ConfigurationHolder getSettings() {
-        return this.settings;
+    public void setSettings(ConfigurationHolder settings) {
+        this.settings = settings;
+        // use settings here
     }
 
     @Override
@@ -195,5 +190,5 @@ public class RSIIndexer implements IndexerInterface{
         // If not sure, simply return true and let the indexation procedures find out.
         return true;
     }
-    
+
 }

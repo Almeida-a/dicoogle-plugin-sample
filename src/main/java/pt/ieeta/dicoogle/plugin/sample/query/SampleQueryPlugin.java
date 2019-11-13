@@ -19,12 +19,6 @@
 
 package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.query;
 
-import java.io.File;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.MemoryDICOMDB;
@@ -32,57 +26,64 @@ import pt.ua.dicoogle.sdk.QueryInterface;
 import pt.ua.dicoogle.sdk.datastructs.SearchResult;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-/** Example of a query provider.
+import java.io.File;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
+/**
+ * Example of a query provider.
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class RSIQuery implements QueryInterface {
-    private static final Logger logger = LoggerFactory.getLogger(RSIQuery.class);
-
+public class SampleQueryPlugin implements QueryInterface {
+    private static final Logger logger = LoggerFactory.getLogger(SampleQueryPlugin.class);
+    private final MemoryDICOMDB memoryDicomDB;
     private boolean enabled;
     private ConfigurationHolder settings;
-    private final MemoryDICOMDB memoryDicomDB;
-    
-    public RSIQuery(MemoryDICOMDB memoryDicomDB) {
+
+    public SampleQueryPlugin(MemoryDICOMDB memoryDicomDB) {
         this.memoryDicomDB = memoryDicomDB;
         this.enabled = true;
     }
-    
-    private SearchResult generateSearchResult()
-    {
-        
+
+    private SearchResult generateSearchResult() {
+
         HashMap<String, Object> map = new HashMap<>();
-        map.put("PatientID",UUID.randomUUID().toString() );
-        map.put("PatientName",UUID.randomUUID().toString() );
-        map.put("SOPInstanceUID",UUID.randomUUID().toString() );
-        map.put("SeriesInstanceUID",UUID.randomUUID().toString() );
-        map.put("StudyInstanceUID",UUID.randomUUID().toString() );
-        map.put("Modality","CT");
-        map.put("StudyDate","20150120");
-        map.put("SeriesDate","20150120");
-        
-        SearchResult r = new SearchResult(
-                URI.create("file:" + File.separatorChar + UUID.randomUUID().toString() ), 1, map);
+        map.put("PatientID", UUID.randomUUID().toString());
+        map.put("PatientName", UUID.randomUUID().toString());
+        map.put("SOPInstanceUID", UUID.randomUUID().toString());
+        map.put("SeriesInstanceUID", UUID.randomUUID().toString());
+        map.put("StudyInstanceUID", UUID.randomUUID().toString());
+        map.put("Modality", "CT");
+        map.put("StudyDate", "20150120");
+        map.put("SeriesDate", "20150120");
+
+        SearchResult r = new SearchResult(URI.create("file:" + File.separatorChar + UUID.randomUUID().toString()), 1, map);
+
         return r;
     }
-    
-    
+
+
     @Override
     public Iterable<SearchResult> query(String query, Object... parameters) {
-        
-        List<SearchResult> results =  new ArrayList<>();
+
+        List<SearchResult> results = new ArrayList<>();
         results.add(generateSearchResult());
         results.add(generateSearchResult());
         results.add(generateSearchResult());
         results.add(generateSearchResult());
         results.add(generateSearchResult());
-        
+
         return results;
     }
 
     @Override
     public String getName() {
-        return "RSI";
+        return "sample-plugin-query";
     }
 
     @Override
@@ -103,14 +104,14 @@ public class RSIQuery implements QueryInterface {
     }
 
     @Override
-    public void setSettings(ConfigurationHolder settings) {
-        this.settings = settings;
-        // use settings here
+    public ConfigurationHolder getSettings() {
+        return this.settings;
     }
 
     @Override
-    public ConfigurationHolder getSettings() {
-        return this.settings;
+    public void setSettings(ConfigurationHolder settings) {
+        this.settings = settings;
+        // use settings here
     }
 
 }

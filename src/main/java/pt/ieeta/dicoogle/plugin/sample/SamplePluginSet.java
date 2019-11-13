@@ -19,25 +19,19 @@
 
 package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample;
 
-import java.io.IOException;
-import java.util.Collection;
-import java.util.Collections;
-
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.index.RSIIndexer;
-import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.query.RSIQuery;
-import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.storage.RSIStorage;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.index.SampleIndexPlugin;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.query.SampleQueryPlugin;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.storage.SampleStoragePlugin;
 import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.webservice.SampleJettyPlugin;
-import pt.ua.dicoogle.sdk.GraphicalInterface;
-import pt.ua.dicoogle.sdk.IndexerInterface;
-import pt.ua.dicoogle.sdk.JettyPluginInterface;
-import pt.ua.dicoogle.sdk.PluginSet;
-import pt.ua.dicoogle.sdk.QueryInterface;
-import pt.ua.dicoogle.sdk.StorageInterface;
+import pt.ua.dicoogle.sdk.*;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
+
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * The main plugin set.
@@ -46,31 +40,32 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
  * @author Eduardo Pinho <eduardopinho@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
 @PluginImplementation
-public class RSIPluginSet implements PluginSet {
-    private static final Logger logger = LoggerFactory.getLogger(RSIPluginSet.class);
+public class SamplePluginSet implements PluginSet {
+    private static final Logger logger = LoggerFactory.getLogger(SamplePluginSet.class);
 
     // We will list each of our plugins as an attribute to the plugin set
-    private final RSIIndexer indexer;
-    private final RSIQuery query;
+    private final SampleIndexPlugin indexer;
+    private final SampleQueryPlugin query;
     private final SampleJettyPlugin jettyWeb;
-    private final RSIStorage storage;
+    private final SampleStoragePlugin storage;
 
     // Additional resources may be added here.
     private final MemoryDICOMDB memoryDicomDB = new MemoryDICOMDB();
     private ConfigurationHolder settings;
 
-    public RSIPluginSet() {
-        logger.info("Initializing RSI Plugin Set");
+    public SamplePluginSet() {
+        logger.info("Initializing Sample Plugin Set");
 
         // construct all plugins here
-        this.indexer = new RSIIndexer(memoryDicomDB);
+        this.indexer = new SampleIndexPlugin(memoryDicomDB);
         this.jettyWeb = new SampleJettyPlugin();
-        this.query = new RSIQuery(memoryDicomDB);
-        this.storage = new RSIStorage();
+        this.query = new SampleQueryPlugin(memoryDicomDB);
+        this.storage = new SampleStoragePlugin();
 
-        logger.info("RSI Plugin Set is ready");
+        logger.info("Sample Plugin Set is ready");
     }
 
 
@@ -121,13 +116,13 @@ public class RSIPluginSet implements PluginSet {
     }
 
     @Override
-    public void setSettings(ConfigurationHolder xmlSettings) {
-        this.settings = xmlSettings;
+    public ConfigurationHolder getSettings() {
+        return this.settings;
     }
 
     @Override
-    public ConfigurationHolder getSettings() {
-        return this.settings;
+    public void setSettings(ConfigurationHolder xmlSettings) {
+        this.settings = xmlSettings;
     }
 
     @Override
