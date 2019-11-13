@@ -9,8 +9,8 @@ Getting Started
 
 ### Installing and running Dicoogle
 
-1. Go to http://www.dicoogle.com/?page_id=67
-2. Download version 2 (or later) of Dicoogle
+1. Go to http://www.dicoogle.com
+2. Download Dicoogle
 3. Extract your contents to its own directory (e.g. "~/dicoogle" or "C:\dicoogle", depending on the platform).
 4. Run Dicoogle with: sh Dicoogle.sh (OSX / Linux) or Dicoogle.bat (Windows).
 5. You should see your web browser opening the Dicoogle user interface. Is it running? You're ok!
@@ -19,22 +19,22 @@ Getting Started
 
 Maven is required in order to build the project. An IDE with Maven support such as Netbeans may also help.
 
-1. Clone the git repository at https://github.com/bioinformatics-ua/dicooglePluginSample.git
+1. Clone this git repository
 
 2. Go to the project's base directory in a command line and run `mvn install`. Alternatively, open
    the Maven project of the plugin with your IDE, then force it to build your project.
 
 3. If the building task is successful, you will have a new jar with dependencies in the target
-   folder (target/dicoogle-plugin-sample-2.0-jar-with-dependencies.jar).
+   folder (target/dicoogle-plugin-sample-2.5.0-jar-with-dependencies.jar).
 
 ### Developing your own plugin based on this sample
 
-The first class to look into is RSIPluginSet. It is the main entry point for everything else.
+The first class to look into is SamplePluginSet. It is the main entry point for everything else.
 Once modified to suit your needs, build the plugin again and re-deploy it to Dicoogle (see below).
 
 ### Using your plugin
 
-1. Copy your plugin's package with dependencies (target/dicoogle-plugin-sample-2.0-jar-with-dependencies.jar)
+1. Copy your plugin's package with dependencies (target/dicoogle-plugin-sample-2.5.0-jar-with-dependencies.jar)
    to the "Plugins" folder inside the root folder of Dicoogle.
 
 2. Run Dicoogle. The plugin will be automatically included.
@@ -42,13 +42,11 @@ Once modified to suit your needs, build the plugin again and re-deploy it to Dic
 Available content
 -----------------
 
-- _RSIIndexer_ : a sample indexer, only logs the DIM contents of files
-- _RSIStorage_ : a sample storage service, keeps files in memory buffers
-- _RSIQuery_ : a sample query provider, returns random data on request
-- _RSIJettyPlugin_ : a sample plugin for providing web services, holds `RSIWebService`
-- _RSIWebService_ : a sample web service in the form of a servlet, serves a web page and a few other services
-- _RSIRestPlugin_ : a sample Restlet server resource, provides dummy data
-- Sample HTML5 content and consuming web service: helps you to build a web app
+- _SampleIndexer_ : a sample indexer, only logs the DIM contents of files
+- _SampleStorage_ : a sample storage service, keeps files in memory buffers
+- _SampleQuery_ : a sample query provider, returns random data on request
+- _SampleJettyPlugin_ : a sample plugin for providing web services, holds `SampleWebService`
+- _SampleWebService_ : a sample web service in the form of a servlet, serves a web page and a few other services
 
 Web service plugin sample and Web App: 
 --------------------------------------
@@ -56,8 +54,6 @@ Web service plugin sample and Web App:
 To test the webservice plugin, you may open your browser and navigate to these URLs:
 
 - `http://localhost:8080/sample/hello?uid=1111`
-- `http://localhost:8080/dashboardSample`
-- `http://localhost:8080/ext/rsi-test` (restlet)
 
 You may also use the built-in Dicoogle services for testing other plugins:
 
