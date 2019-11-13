@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.webservice;
+package pt.ieeta.dicoogle.plugin.sample.webservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,12 +52,11 @@ public class SampleJettyWebService extends HttpServlet implements PlatformCommun
 
         String SOPInstanceUID = req.getParameter("uid");
         if (SOPInstanceUID == null) {
-            response.sendError(402, "No UID");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "No UID");
             return;
         }
-        HashMap<String, String> extraFields = new HashMap<>();
-        //attaches the required extrafields
 
+        HashMap<String, String> extraFields = new HashMap<>();
         extraFields.put("PatientName", "PatientName");
         extraFields.put("PatientID", "PatientID");
         extraFields.put("Modality", "Modality");
@@ -70,8 +69,10 @@ public class SampleJettyWebService extends HttpServlet implements PlatformCommun
 
         // Kind of filtering: 
         //Task<Iterable<SearchResult>> result = SamplePluginSet.coreDicoogle.query("lucene", "StudyInstanceUID:234567", extraFields);
+
         // Return all: 
         Task<Iterable<SearchResult>> result = this.platform.query("lucene", "*:*", extraFields);
+
         try {
             Iterable<SearchResult> rr = result.get();
 
