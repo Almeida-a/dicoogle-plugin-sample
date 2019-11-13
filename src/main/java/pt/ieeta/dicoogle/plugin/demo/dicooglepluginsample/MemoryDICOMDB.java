@@ -21,34 +21,37 @@ package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample;
 import java.util.ArrayList;
 import java.util.List;
 
-/** An in-memory DICOM storage.
+/**
+ * An in-memory DICOM storage.
  *
  * @author Luís A. Bastião Silva <bastiao@ua.pt>
  * @author Eduardo Pinho <eduardopinho@ua.pt>
+ * @author Rui Lebre - <ruilebre@ua.pt>
  */
 public class MemoryDICOMDB {
-    
+
     private final List<String> patientNames;
     private final List<String> studies;
     private final List<String> series;
     private final List<String> sopInstanceUIDs;
-    
-    public MemoryDICOMDB ()
-    {
+
+    public MemoryDICOMDB() {
         patientNames = new ArrayList<>();
         studies = new ArrayList<>();
         series = new ArrayList<>();
         sopInstanceUIDs = new ArrayList<>();
     }
-    
-    public void add(String patient, String study, String serie, String sop)
-    {
+
+    public void add(String patient, String study, String serie, String sop) {
+        patientNames.add(patient);
+        studies.add(study);
+        series.add(serie);
         sopInstanceUIDs.add(sop);
     }
-    public void remove(String sop)
-    {
+
+    public void remove(String sop) {
         sopInstanceUIDs.remove(sop);
     }
-    
+
 
 }
