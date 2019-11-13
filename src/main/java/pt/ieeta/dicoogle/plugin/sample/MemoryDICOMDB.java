@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample;
+package pt.ieeta.dicoogle.plugin.sample;
 
 import java.util.ArrayList;
 import java.util.List;
