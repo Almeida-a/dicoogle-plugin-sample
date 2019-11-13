@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
-package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample;
+package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.index;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -27,6 +27,7 @@ import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.io.StopTagInputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.MemoryDICOMDB;
 import pt.ua.dicoogle.sdk.IndexerInterface;
 import pt.ua.dicoogle.sdk.StorageInputStream;
 import pt.ua.dicoogle.sdk.datastructs.Report;

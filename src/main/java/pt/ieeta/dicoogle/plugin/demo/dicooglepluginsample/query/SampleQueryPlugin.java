@@ -17,7 +17,7 @@
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample;
+package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.query;
 
 import java.io.File;
 import java.net.URI;
@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.MemoryDICOMDB;
 import pt.ua.dicoogle.sdk.QueryInterface;
 import pt.ua.dicoogle.sdk.datastructs.SearchResult;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;

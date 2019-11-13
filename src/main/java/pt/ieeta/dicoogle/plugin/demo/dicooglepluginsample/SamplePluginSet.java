@@ -22,10 +22,15 @@ package pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import org.restlet.resource.ServerResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.index.RSIIndexer;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.query.RSIQuery;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.storage.RSIStorage;
+import pt.ieeta.dicoogle.plugin.demo.dicooglepluginsample.webservice.SampleJettyPlugin;
 import pt.ua.dicoogle.sdk.GraphicalInterface;
 import pt.ua.dicoogle.sdk.IndexerInterface;
 import pt.ua.dicoogle.sdk.JettyPluginInterface;
@@ -34,8 +39,9 @@ import pt.ua.dicoogle.sdk.QueryInterface;
 import pt.ua.dicoogle.sdk.StorageInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
-/** The main plugin set.
- * 
+/**
+ * The main plugin set.
+ *
  * This is the entry point for all plugins.
  *
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
@@ -43,33 +49,30 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
  */
 @PluginImplementation
 public class RSIPluginSet implements PluginSet {
-    // use slf4j for logging purposes
     private static final Logger logger = LoggerFactory.getLogger(RSIPluginSet.class);
-    
+
     // We will list each of our plugins as an attribute to the plugin set
     private final RSIIndexer indexer;
     private final RSIQuery query;
-    private final RSIWebResource web;
-    private final RSIJettyPlugin jettyWeb;
+    private final SampleJettyPlugin jettyWeb;
     private final RSIStorage storage;
-    
+
     // Additional resources may be added here.
     private final MemoryDICOMDB memoryDicomDB = new MemoryDICOMDB();
     private ConfigurationHolder settings;
-    
-    public RSIPluginSet() throws IOException {
+
+    public RSIPluginSet() {
         logger.info("Initializing RSI Plugin Set");
 
         // construct all plugins here
         this.indexer = new RSIIndexer(memoryDicomDB);
-        this.jettyWeb = new RSIJettyPlugin();
+        this.jettyWeb = new SampleJettyPlugin();
         this.query = new RSIQuery(memoryDicomDB);
         this.storage = new RSIStorage();
-        this.web = new RSIWebResource();
-        
+
         logger.info("RSI Plugin Set is ready");
     }
-    
+
 
     @Override
     public Collection<IndexerInterface> getIndexPlugins() {
@@ -80,31 +83,32 @@ public class RSIPluginSet implements PluginSet {
          * This cast in the argument is needed (only in versions prior to Java 8),
          * otherwise the return type cannot be resolved properly.
          */
-        return Collections.singleton((IndexerInterface) this.indexer);
+        return Collections.singleton(this.indexer);
     }
 
     @Override
     public Collection<QueryInterface> getQueryPlugins() {
-        return Collections.singleton((QueryInterface) this.query);
+        return Collections.singleton(this.query);
     }
-    
-    /** This method is used to retrieve a name for identifying the plugin set. Keep it as a constant value.
-     * 
+
+    /**
+     * This method is used to retrieve a name for identifying the plugin set. Keep it as a constant value.
+     *
      * @return a unique name for the plugin set
      */
     @Override
     public String getName() {
-        return "RSI";
+        return "Sample Plugin Set";
     }
 
     @Override
     public Collection<ServerResource> getRestPlugins() {
-        return Collections.singleton((ServerResource) this.web);
+        return Collections.EMPTY_LIST;
     }
 
     @Override
     public Collection<JettyPluginInterface> getJettyPlugins() {
-        return Collections.singleton((JettyPluginInterface) this.jettyWeb);
+        return Collections.singleton(this.jettyWeb);
     }
 
     @Override
@@ -113,7 +117,7 @@ public class RSIPluginSet implements PluginSet {
 
     @Override
     public Collection<StorageInterface> getStoragePlugins() {
-        return Collections.singleton((StorageInterface) this.storage);
+        return Collections.singleton(this.storage);
     }
 
     @Override
