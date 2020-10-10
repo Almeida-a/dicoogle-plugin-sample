@@ -1,8 +1,12 @@
 Dicoogle Plugin - Sample 
 ========================
 
-This is a Dicoogle plugin to serve as an example. Those that are interested in developing a new
-plugin may use this one as a template.
+This is a Dicoogle plugin example. Those that are interested in developing a new
+plugin may use this one as a template. More information about Dicoogle API, Dicoogle
+guides and Dicoogle Plugins is available [here](https://bioinformatics-ua.github.io/dicoogle-api/).
+- Dicoogle Learning Pack: [Learning Pack](https://bioinformatics-ua.github.io/dicoogle-learning-pack/)
+- Dicoogle Javadoc: [Javadoc](https://bioinformatics-ua.github.io/dicoogle-api/javadoc/)
+- Dicoogle Web API: [Web API](https://bioinformatics-ua.github.io/dicoogle-api/webapi/)
 
 Getting Started
 ---------------
@@ -11,9 +15,9 @@ Getting Started
 
 1. Go to http://www.dicoogle.com/downloads/
 2. Download Dicoogle
-3. Extract your contents to its own directory (e.g. "~/dicoogle" or "C:\dicoogle", depending on the platform).
+3. Extract your contents to its own directory (*for instance*, "~/dicoogle" or "C:\dicoogle", depending on the platform).
 4. Run Dicoogle with: sh DicoogleClient.sh (OSX / Linux) or DicoogleClient.bat (Windows).
-5. You should see your web browser opening the Dicoogle user interface. Is it running? You're ok!
+5. You should see your web browser opening the Dicoogle user interface. Is it running? You're fine!
 
 ### Downloading and building the plugin
 
