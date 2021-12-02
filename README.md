@@ -1,3 +1,6 @@
+## Experimental
+This repository's objective is to "play" with the capabilities of a plugin by developing sample features in order to better understand how to program a dicoogle plugin.
+
 Dicoogle Plugin - Sample 
 ========================
 
