@@ -20,8 +20,8 @@ package pt.ieeta.dicoogle.plugin.sample.webservice;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pt.ua.dicoogle.sdk.annotation.InjectPlatformProxy;
 import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
+import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.datastructs.SearchResult;
 import pt.ua.dicoogle.sdk.task.Task;
 
@@ -39,10 +39,9 @@ import java.util.concurrent.ExecutionException;
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
  * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class SampleJettyWebService extends HttpServlet {
+public class SampleJettyWebService extends HttpServlet implements PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(SampleJettyWebService.class);
 
-    @InjectPlatformProxy
     private DicooglePlatformInterface platform;
 
     public SampleJettyWebService() {
@@ -85,4 +84,10 @@ public class SampleJettyWebService extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.print("{\"action\":\"test\"}");
     }
+
+    @Override
+    public void setPlatformProxy(DicooglePlatformInterface core) {
+        this.platform = core;
+    }
+
 }

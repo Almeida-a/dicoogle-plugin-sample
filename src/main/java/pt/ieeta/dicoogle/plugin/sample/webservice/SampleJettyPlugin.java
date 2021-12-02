@@ -24,6 +24,8 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ua.dicoogle.sdk.JettyPluginInterface;
+import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
+import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
 /**
@@ -32,15 +34,23 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
  * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class SampleJettyPlugin implements JettyPluginInterface {
+public class SampleJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
     private static final Logger logger = LoggerFactory.getLogger(SampleJettyPlugin.class);
     private final SampleJettyWebService webService;
     private boolean enabled;
     private ConfigurationHolder settings;
+    private DicooglePlatformInterface platform;
 
     public SampleJettyPlugin() {
         this.webService = new SampleJettyWebService();
         this.enabled = true;
+    }
+
+    @Override
+    public void setPlatformProxy(DicooglePlatformInterface pi) {
+        this.platform = pi;
+
+        this.webService.setPlatformProxy(pi);
     }
 
     @Override
