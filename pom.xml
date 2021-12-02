@@ -5,14 +5,14 @@
     <groupId>pt.ua.dicoogle.demo</groupId>
     <artifactId>dicoogle-plugin-sample</artifactId>
     <name>dicoogle-plugin-sample</name>
-    <version>2.5.8</version>
+    <version>3.0.3</version>
     <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Dicoogle SDK version here -->
-        <dicoogle.version>2.5.8</dicoogle.version>
+        <dicoogle.version>3.0.3</dicoogle.version>
 
         <!-- Jetty server version here -->
         <jetty.version>9.4.2.v20170220</jetty.version>
