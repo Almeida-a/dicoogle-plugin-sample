@@ -1,18 +1,18 @@
 /**
  * Copyright (C) 2014  Universidade de Aveiro, DETI/IEETA, Bioinformatics Group - http://bioinformatics.ua.pt/
- *
+ * <p>
  * This file is part of Dicoogle/dicoogle-plugin-sample.
- *
+ * <p>
  * Dicoogle/dicoogle-plugin-sample is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * Dicoogle/dicoogle-plugin-sample is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU General Public License
  * along with Dicoogle.  If not, see <http://www.gnu.org/licenses/>.
  */
@@ -24,8 +24,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import pt.ua.dicoogle.sdk.JettyPluginInterface;
-import pt.ua.dicoogle.sdk.core.DicooglePlatformInterface;
-import pt.ua.dicoogle.sdk.core.PlatformCommunicatorInterface;
 import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
 
 /**
@@ -34,23 +32,15 @@ import pt.ua.dicoogle.sdk.settings.ConfigurationHolder;
  * @author Luís A. Bastião Silva - <bastiao@ua.pt>
  * @author Rui Lebre - <ruilebre@ua.pt>
  */
-public class SampleJettyPlugin implements JettyPluginInterface, PlatformCommunicatorInterface {
+public class SampleJettyPlugin implements JettyPluginInterface {
     private static final Logger logger = LoggerFactory.getLogger(SampleJettyPlugin.class);
     private final SampleJettyWebService webService;
     private boolean enabled;
     private ConfigurationHolder settings;
-    private DicooglePlatformInterface platform;
 
     public SampleJettyPlugin() {
         this.webService = new SampleJettyWebService();
         this.enabled = true;
-    }
-
-    @Override
-    public void setPlatformProxy(DicooglePlatformInterface pi) {
-        this.platform = pi;
-
-        this.webService.setPlatformProxy(pi);
     }
 
     @Override
