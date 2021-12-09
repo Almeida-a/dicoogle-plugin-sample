@@ -62,7 +62,8 @@ public class SampleQueryPlugin implements QueryInterface {
         map.put("StudyDate", "20150120");
         map.put("SeriesDate", "20150120");
 
-        SearchResult r = new SearchResult(URI.create("file:" + File.separatorChar + UUID.randomUUID().toString()), 1, map);
+        // TODO check if this "///" works on linux
+        SearchResult r = new SearchResult(URI.create("file:///" + UUID.randomUUID().toString()), 1, map);
 
         return r;
     }
